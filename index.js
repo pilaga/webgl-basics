@@ -1,5 +1,17 @@
 main();
 
+function NormalisedToDevice(coord, axisSize) {
+    var halfAxisSize = axisSize / 2.0;
+    var deviceCoord = (coord + 1) * halfAxisSize;
+    return deviceCoord;
+}
+
+function DeviceToNormalised(coord, axisSize) {
+    var halfAxisSize = axisSize / 2.0;
+    var normalisedCoord = (coord / halfAxisSize) - 1;
+    return normalisedCoord;
+}
+
 function main()
 {
     const canvas = document.querySelector('#glcanvas');
@@ -11,7 +23,7 @@ function main()
     }
 
     var vertices = [
-        0.0, 0.0, 0.0,
+        DeviceToNormalised(320, canvas.width), DeviceToNormalised(0, canvas.height), 0.0,
         0.5, -0.5, 0.0,
         1.0, 1.0, 0.0
     ];
