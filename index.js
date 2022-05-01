@@ -23,12 +23,13 @@ function main()
     }
 
     var vertices = [
-        0.0, 0.5, 0.0,
-        -0.5, -0.5, 0.0,
-        0.5, -0.5, 0.0
+        -0.5, 0.5, 0.0,     //0
+        -0.5, -0.5, 0.0,    //1
+        0.5, -0.5, 0.0,     //2
+        0.5, 0.5, 0.0       //3
     ]; 
     
-    var line_vertices = [
+    /*var line_vertices = [
         -0.5, 0.2, 0.0,
         -0.1, 0.7, 0.0,
         -0.3, -0.3, 0.0,
@@ -41,7 +42,7 @@ function main()
     var line_vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, line_vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(line_vertices), gl.STATIC_DRAW);
-    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);*/
 
     //create an empty buffer object to store the vertex buffer
     var vertexBuffer = gl.createBuffer();
@@ -53,7 +54,7 @@ function main()
     //unbind the buffer
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
-    var indices = [0, 1, 2];
+    var indices = [3, 2, 1, 3, 1, 0];
 
     //create empty buffer object to store index buffer
     var indexBuffer = gl.createBuffer();
@@ -97,8 +98,8 @@ function main()
     gl.useProgram(shaderProgram);
 
     //bind vertex & index buffer objects
-    gl.bindBuffer(gl.ARRAY_BUFFER, line_vertexBuffer);
-    //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
 
     //get the attribute location and point it to currently bound VBO
     var coord = gl.getAttribLocation(shaderProgram, 'coordinates');
@@ -111,6 +112,6 @@ function main()
 
     gl.viewport(0, 0, canvas.width, canvas.height);
 
-    //gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
-    gl.drawArrays(gl.TRIANGLE_FAN, 0, 6);
+    gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+    //gl.drawArrays(gl.TRIANGLE_FAN, 0, 6);
 }
