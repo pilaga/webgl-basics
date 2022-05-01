@@ -23,10 +23,10 @@ function main()
     }
 
     var vertices = [
-        DeviceToNormalised(320, canvas.width), DeviceToNormalised(0, canvas.height), 0.0,
-        0.5, -0.5, 0.0,
-        1.0, 1.0, 0.0
-    ];
+        0.0, 0.5, 0.0,
+        -0.5, -0.5, 0.0,
+        0.5, -0.5, 0.0
+    ];    
 
     //create an empty buffer object to store the vertex buffer
     var vertexBuffer = gl.createBuffer();
@@ -38,13 +38,23 @@ function main()
     //unbind the buffer
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
+    var indices = [0, 1, 2];
+
+    //create empty buffer object to store index buffer
+    var indexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+
+    //unbind the buffer
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+
     //vertex shader
     var vertCode = `
         attribute vec3 coordinates;
         void main(void)
         {
             gl_Position = vec4(coordinates, 1.0);
-            gl_PointSize = 10.0;
         }
     `;
     var vertShader = gl.createShader(gl.VERTEX_SHADER);
@@ -71,8 +81,9 @@ function main()
     gl.linkProgram(shaderProgram);
     gl.useProgram(shaderProgram);
 
-    //bind vertex buffer object
+    //bind vertex & index buffer objects
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
 
     //get the attribute location and point it to currently bound VBO
     var coord = gl.getAttribLocation(shaderProgram, 'coordinates');
@@ -85,5 +96,5 @@ function main()
 
     gl.viewport(0, 0, canvas.width, canvas.height);
 
-    gl.drawArrays(gl.POINTS, 0, 3);
+    gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 }
