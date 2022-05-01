@@ -112,5 +112,5 @@ function main()
     gl.viewport(0, 0, canvas.width, canvas.height);
 
     //gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
-    gl.drawArrays(gl.LINES, 0, 6);
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, 6);
 }
