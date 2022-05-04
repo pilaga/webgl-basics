@@ -15,12 +15,15 @@ document.body.appendChild( renderer.domElement );
 
 camera.position.z = 5;
 
-var object, texture, objectLoaded = true;
+var object, texture, objectLoaded = false;
 
 
 function animate() {
     requestAnimationFrame(animate);
 
+    if(objectLoaded) {
+        object.rotation.y += 0.002;
+    }
 
     renderer.render(scene, camera);
 };
